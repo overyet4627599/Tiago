@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Produtos</h2>
+
+<input id="nome" placeholder="Nome">
+<input id="preco" placeholder="Preço">
+
+<button onclick="salvar()">Salvar</button>
+
+<ul id="lista"></ul>
+
+<script>
+
+async function salvar(){
+
+await fetch("/produtos",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+nome:nome.value,
+preco:preco.value
+
+})
+
+})
+
+carregar()
+
+}
+
+async function carregar(){
+
+let r = await fetch("/produtos")
+
+let dados = await r.json()
+
+lista.innerHTML=""
+
+dados.forEach(p=>{
+
+let li=document.createElement("li")
+
+li.innerText=p.nome+" - "+p.preco
+
+lista.appendChild(li)
+
+})
+
+}
+
+carregar()
+
+</script>
+
+</body>
+</html>
